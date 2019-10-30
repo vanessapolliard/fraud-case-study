@@ -8,8 +8,12 @@ import pandas as pd
 from sklearn.base import TransformerMixin, BaseEstimator
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
 
 from src.data.make_dataset import load_data_as_dataframe
+
 
 FILE_DIRECTORY = os.path.split(os.path.realpath(__file__))[0]  # Directory this script is in
 SRC_DIRECTORY = os.path.split(FILE_DIRECTORY)[0]  # The 'src' directory
@@ -34,4 +38,9 @@ ct = ColumnTransformer(
         ('features', StandardScaler(), ['body_length', 'channels'])
     ])
 
-transformed = ct.fit_transform(X)
+log_regressor = LogisticRegression(solver='lbfgs')
+ct_log_regressor = Pipeline([('ct', ct), ('log_regressor', log_regressor)])
+ct_log_regressor.set_params().fit(X, y)
+
+print(f"basic score: {ct_log_regressor.score(X, y)}")
+print(f"CV score: {cross_val_score(ct_log_regressor, X, y, cv=5)}")
