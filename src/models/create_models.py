@@ -4,6 +4,7 @@ sys.path.append('.')
 
 import click
 import pandas as pd
+import pickle
 
 from sklearn.base import TransformerMixin, BaseEstimator
 from sklearn.compose import ColumnTransformer
@@ -44,3 +45,6 @@ ct_log_regressor.set_params().fit(X, y)
 
 print(f"basic score: {ct_log_regressor.score(X, y)}")
 print(f"CV score: {cross_val_score(ct_log_regressor, X, y, cv=5)}")
+
+with open("models/basemodel.pkl","wb") as f:
+    pickle.dump(ct_log_regressor,f)
