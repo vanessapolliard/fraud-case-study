@@ -3,6 +3,8 @@ import os
 import click
 import pandas as pd
 
+from sklearn.model_selection import train_test_split
+
 FILE_DIRECTORY = os.path.split(os.path.realpath(__file__))[0]  # Directory this script is in
 SRC_DIRECTORY = os.path.split(FILE_DIRECTORY)[0]  # The 'src' directory
 ROOT_DIRECTORY = os.path.split(SRC_DIRECTORY)[0]  # The root directory for the project
@@ -45,6 +47,22 @@ def create_subset(numrows, outfile, file_type, random_subset):
         df_subset.to_csv(outfile, index=False)
     else:
         print("It looks like the file_type you entered isn't supported.")
+
+@cli.command()
+def make_train_test_split():
+    train_outfile = os.path.join(DATA_DIRECTORY_PROCESSED, f'train.json')
+    test_outfile = os.path.join(DATA_DIRECTORY_PROCESSED, f'test.json')
+    if os.path.exists(train_outfile) and os.path.exists(test_outfile):
+        print('both files already exists, not doing anything')
+        return
+    print('loading data')
+    df = load_data_as_dataframe()
+    print('creating train test split')
+    train, test = train_test_split(df, random_state=42)
+    print(f'writing train file to {train_outfile}')
+    train.to_json(train_outfile)
+    print(f'writing test file to {test_outfile}')
+    test.to_json(test_outfile)
 
 
 if __name__ == "__main__":
