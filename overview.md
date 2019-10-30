@@ -185,72 +185,6 @@ Use this [tutorial](http://blog.luisrei.com/articles/flaskrest.html) to for more
 
     There are two things you'll do to make this all more efficient:
 
-<<<<<<< HEAD:overview.md
-    1. Only unpickle the model once
-    2. Only connect to the database once.
-    
-    Do both in a `if __name__ == '__main__':` block before you call `app.run()` and you can refer to these top-level global variables from within the function. This may require some re-architecting of your prediction module.
-
-    The individual example will no longer be coming from a local file, but instead you will get it by making a request to a server that will give you a data point as a string, which you can parse into JSON. 
-You can use `json.loads()` to parse a string to json, which is the reverse process of `json.dumps()`. You'll still need to vectorize it, predict, and store the example and prediction in the database.
-
-### Step 6: Get "live" data
-
-We've set up a service for you that will send out "live" data so that you can see that your app is really working.
-
-To use this service, you will need to make a request to our secure server. It gives a maximum of the 10 most recent datapoints, ordered by `sequence_number`. New datapoints come in every few minutes.
-
-*Warning: you will need to implement the save_to_database method.*
-
-```python
-class EventAPIClient:
-    """Realtime Events API Client"""
-    
-    def __init__(self, first_sequence_number=0,
-                 api_url = 'https://hxobin8em5.execute-api.us-west-2.amazonaws.com/api/',
-                 api_key = 'vYm9mTUuspeyAWH1v-acfoTlck-tCxwTw9YfCynC',
-                 db = None):
-        """Initialize the API client."""
-        self.next_sequence_number = first_sequence_number
-        self.api_url = api_url
-        self.api_key = api_key
-        
-    def save_to_database(self, row):
-        """Save a data row to the database."""
-        print("Received data:\n" + repr(row) + "\n")  # replace this with your code
-
-    def get_data(self):
-        """Fetch data from the API."""
-        payload = {'api_key': self.api_key,
-                   'sequence_number': self.next_sequence_number}
-        response = requests.post(self.api_url, json=payload)
-        data = response.json()
-        self.next_sequence_number = data['_next_sequence_number']
-        return data['data']
-    
-    def collect(self, interval=30):
-        """Check for new data from the API periodically."""
-        while True:
-            print("Requesting data...")
-            data = self.get_data()
-            if data:
-                print("Saving...")
-                for row in data:
-                    self.save_to_database(row)
-            else:
-                print("No new data received.")
-            print(f"Waiting {interval} seconds...")
-            time.sleep(interval)
-
-
-# Usage Example
-
-client = EventAPIClient()
-client.collect()
-```
-
-1. Write a function that periodically fetches new data, generates a predicted fraud probability, and saves it to your database (after verifying that the data hasn't been seen before).
-=======
     1. We only want to unpickle the model once
     2. We only want to connect to the database once.
 
@@ -268,7 +202,6 @@ We've set up a service for you that will periodically release new, "live" data s
 To use this service, you will need to make a GET request to `http://galvanize-case-study-on-fraud.herokuapp.com/data_point`.
 
 There are a few interesting aspects to the data flow that we want you to experience during this case study.  One aspect is that the dataset is *dynamic*, not static.  That means that while you do have a certain amount of training data, *more (unlabeled) data is generated all the time* that needs to be labeled (predicted).  Therefore you can't simply run a script locally, predict all your unknown data points, and save the result as, say, a .csv or into a database, as you might do with a static dataset.  Instead, to handle a dynamic dataset, you need a 'live' function that uses your model to predict a new data point on the fly.  So where does that new data point to predict come from?  When you're writing a data product, in this case a prediction service, you often set up a route on your server like /score, which scores/predicts an individual data point.  Indeed, you'll want to do that here.  Usually, you'll deploy your app to a place like AWS or Heroku or inside your company's network, where other machines can access it (ie, they can make a POST request to your /score endpoint, sending inside the POST request the new data point to be scored).  It can be a little hard to develop such an app, though, since while you're developing locally you'll likely be running the app on your laptop, usually within a network like Galvanize's or at, say, a cafe with WiFi, and requests can't come from elsewhere on the internet into your machine.  So we are going to use a slightly different flow here to get new data points.  Namely, you are going to make GET requests to a server (that we've set up for you) that offers up new data points every so often.  Once you make that GET request, you'll want to send the results of the request over to your own /score route to score them.  This simulates the experience of using a model on a new data point live, while allowing for easy local development.  (As an extension if you're feeling ambitious, you could create a route named something like /get_and_score, which would both GET a fresh new data point as well as score it.)  So, to summarize: make a GET request to `http://galvanize-case-study-on-fraud.herokuapp.com/data_point`, take the result and parse it into JSON, take that result and score it using your model, and save the resulting prediction along with the data point to your database of predicted fraud probabilities.
->>>>>>> new-heroku-server:pair.md
 
 **Make sure your app is adding the examples to the database with predicted fraud probabilities.**
 
