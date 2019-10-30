@@ -2,11 +2,24 @@ import os
 import pickle
 
 from flask import Flask, render_template, jsonify, request, redirect, url_for
+import psycopg2
 
 # FILE_DIRECTORY = os.path.split(os.path.realpath(__file__))[0]
 # DATA_DIRECTORY = os.path.join(FILE_DIRECTORY, 'data')
 
 app = Flask(__name__)
+
+conn = psycopg2.connect(database="fraud",
+                        user="postgres",
+                        host="localhost", port="5435")
+cur = conn.cursor()
+
+def get_db_data():
+    select_query = "SELECT * FROM fraudstream"
+    cur.execute(select_query)
+    data = cur.fetchall()
+
+    return data
 
 # with open(os.path.join(DATA_DIRECTORY, 'user_recommendations.pkl'), 'rb') as f:
 #     user_recommendations = pickle.load(f)
@@ -17,7 +30,8 @@ app = Flask(__name__)
 # home page
 @app.route('/')
 def index():
-    return render_template('index.html')
+    data = get_db_data()
+    return render_template('index.html', data=data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, threaded=True, debug=False) # Make sure to change debug=False for production
