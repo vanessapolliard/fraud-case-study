@@ -17,9 +17,16 @@ DATA_DIRECTORY_PROCESSED = os.path.join(DATA_DIRECTORY, 'processed')  # The data
 def cli():
     pass
 
-def load_data_as_dataframe(filepath=None):
+def load_data_as_dataframe(filepath=None, name='raw'):
     if not filepath:
-        filepath = os.path.join(DATA_DIRECTORY_RAW, 'data.json')
+        if name == 'raw':
+            filepath = os.path.join(DATA_DIRECTORY_RAW, 'data.json')
+        elif name == 'train':
+            filepath = os.path.join(DATA_DIRECTORY_PROCESSED, 'train.json')
+        elif name == 'test':
+            filepath = os.path.join(DATA_DIRECTORY_PROCESSED, 'test.json')
+        else:
+            print(f'no filepath exists for name {name}')
     if not os.path.exists(filepath):
         print(f"It looks like {filepath} doesn't exist. Did you unzip the main data?")
         return None
