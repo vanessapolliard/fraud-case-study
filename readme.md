@@ -35,6 +35,9 @@ In order to easily experiment with various preprocessing steps and model configu
 2. Process categorical columns, including one-hot encoding.
 3. Fit a model.
 
+### Imbalanced Class
+Our initial exploratory analysis showed that our data set consisted of ~90% legitimate events and ~10% fraudulent events. Since all of our models are sensitive to imbalanced classes while training, we utilized the `imbalanced-learn RandomOverSampler` tool to oversample our fraudulent events, resulting in a balanced class.
+
 
 ## Modeling
 ### Model Accuracy Metrics
@@ -48,12 +51,15 @@ In order to be as thorough as possible, we performed a stratified split of our d
 
 While selecting and tuning our models, we employed a GridSearchCV strategy, which varies specified model parameters while performing cross-validation using our testing data.
 
-### Results
+## Results
+
+### ROC Curve
+This chart illustrates the diagnostic ability of our binary classifier system as its discrimination threshold is varied.
 <p align="center">
-<img src="images/roc_curve_final_model.png" width="400">
+<img src="images/roc_curve_final_model.png" width="600">
 </p>  
 
-
+### Model Metrics
 | Metric | Score |
 | --- | --- |
 | classification_threshold | 0.5 |
@@ -62,6 +68,20 @@ While selecting and tuning our models, we employed a GridSearchCV strategy, whic
 | cv_recall | 0.835865 |
 | cv_roc_auc | 0.986365 |
 | cv_f1 | 0.890859 |
+
+### Top Model Feature Importances
+| Importance | Feature |
+| --- | --- |
+| 0.31 | num_previous_payouts |
+| 0.11 | user_age |
+| 0.06 | body_length |
+| 0.06 | time_to_create |
+| 0.06 | user_type_1.0 |
+| 0.05 | org_twitter |
+| 0.04 | name_length |
+| 0.04 | org_facebook |
+| 0.04 | delivery_method_1.0 |
+| 0.03 | event_duration |
 
 ## App Link: http://bit.ly/fraud_predictor
 
