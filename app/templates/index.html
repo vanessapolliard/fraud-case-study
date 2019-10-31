@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>The Best Movie Recommender</title>
+    <title>Real-Time Fraud Screening</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">The Best Movie Recommender</a>
+          <a class="navbar-brand" href="/">Real-Time Fraud Screening</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -57,14 +57,14 @@
     <div class="container">
 
       <div class="starter-template">
-        <h1>Your Super Awesome Movie Recommender</h1>
-        <p class="lead">Hey human. You like movies, right?</p>
+        <h1>Real-Time E-Commerce Fraud Screening</h1>
+        <p class="lead">Real-time fraud probability screening for event records. </p>
       </div>
 
       <div class="jumbotron">
-        <p class="lead"><b>Object ID -- Probability of Fraud</b></p>
+        <p class="lead"><b>Event ID -- Certainty of Fraud</b></p>
         {% for d in data %}
-        <p class="lead">{{d[0]}} -- {{d[1]}}</p>
+        <p class="lead">{{d[0]}} -- {{"{:,.2f}%".format(d[1] * 100)}}</p>
         {% endfor %}
       </div>
 
