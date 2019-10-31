@@ -64,7 +64,7 @@ def save_model_info(model, unique_id, X, y):
         "cv_accuracy": cv_accuracy,
         "cv_precision": cv_precision,
         "cv_recall": cv_recall,
-        "cv_aoc": cv_roc_auc,
+        "cv_roc_auc": cv_roc_auc,
         "cv_f1": cv_f1
     }
 
