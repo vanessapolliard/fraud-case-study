@@ -9,5 +9,6 @@ def featurize_data(X):
     X['num_ticket_types'] = X['ticket_types'].map(lambda x: len(x))
     X['venue_address_exists'] = np.where(X['venue_address'] != '', 1, 0)
     X['venue_name_exists'] = np.where(X['venue_name'] != '', 1, 0)
+    X['email_in_top_five_domains'] = X['email_domain'].map(lambda x: x in ('gmail.com', 'yahoo.com', 'hotmail.com', 'aol.com', 'live.com')).astype(int)
 
     return X
