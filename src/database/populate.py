@@ -33,10 +33,10 @@ conn = psycopg2.connect(database="fraud",
                         host="localhost", port="5435")
 cur = conn.cursor()
 
-def insert_into_db(event_id, fraud):
-    insert_vals = [event_id, fraud]
+def insert_into_db(event_id, fraud, event_name):
+    insert_vals = [event_id, fraud, event_name]
     insert_query = "INSERT INTO fraudstream VALUES \
-                    (%s, %s)"
+                    (%s, %s, %s)"
 
     cur.execute(insert_query, tuple(insert_vals))
     conn.commit()
@@ -67,6 +67,7 @@ if __name__ == "__main__":
     while True:
         r = single_api_query(api_url)
         event_id = r['object_id']
+        event_name = r['name']
         if does_event_id_exist(event_id):
             print(f'{event_id} already exists in database')
         else:
@@ -84,7 +85,7 @@ if __name__ == "__main__":
                     print('failed twice, passing this data point')
                     continue
             print(f'inserting event {event_id} into db with predicted fraud probability {predicted_proba:.3f}')
-            insert_into_db(event_id, predicted_proba)
+            insert_into_db(event_id, predicted_proba, event_name)
 
         time.sleep(3)
 
