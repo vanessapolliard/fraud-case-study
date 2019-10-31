@@ -48,7 +48,7 @@ X = featurize_data(X)
 
 # Create preprocessing transformer
 scaled_features = ['body_length', 'channels', 'name_length', 'org_facebook', 'org_twitter', 'user_age','event_duration','time_to_create','num_previous_payouts','num_ticket_types']
-passthrough_features = ['fb_published', 'has_analytics', 'has_header', 'has_logo', 'show_map','org_desc_exists','org_name_exists','venue_address_exists','venue_name_exists', 'vip', 'pour', 'party', 'code', 'club', 'email_in_top_five_domains']
+passthrough_features = ['fb_published', 'has_analytics', 'has_header', 'has_logo', 'show_map','org_desc_exists','org_name_exists','venue_address_exists','venue_name_exists', 'email_in_top_five_domains']  # 'vip', 'pour', 'party', 'code', 'club',
 onehot_features = ['delivery_method', 'user_type']
 
 numeric_transformer = Pipeline(steps=[

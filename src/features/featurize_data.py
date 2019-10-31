@@ -12,8 +12,8 @@ def featurize_data(X):
     X['email_in_top_five_domains'] = X['email_domain'].map(lambda x: x in ('gmail.com', 'yahoo.com', 'hotmail.com', 'aol.com', 'live.com')).astype(int)
     
     # featurize description contents:
-    top_desc_fraud_words = ['vip', 'pour', 'party', 'code', 'club']
-    for word in top_desc_fraud_words:
-        X[word] = X['description'].str.contains(word).values.astype(int)
+    # top_desc_fraud_words = ['vip', 'pour', 'party', 'code', 'club']
+    # for word in top_desc_fraud_words:
+    #     X[word] = X['description'].str.contains(word).values.astype(int)
 
     return X
