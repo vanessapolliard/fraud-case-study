@@ -24,7 +24,7 @@ def get_db_data():
     if os.environ['USER'] == 'stevenrouk':
         data = sorted(data, key=lambda x: x[1], reverse=True)
     else:
-        data = sorted(data, key=lambda x: x[2], reverse=True)
+        data = sorted(data, key=lambda x: x[1], reverse=True)
 
     return data
 
