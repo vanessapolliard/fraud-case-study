@@ -15,9 +15,16 @@ conn = psycopg2.connect(database="fraud",
 cur = conn.cursor()
 
 def get_db_data():
-    select_query = "SELECT * FROM fraudstream"
+    if os.environ['USER'] == 'stevenrouk':
+        select_query = "SELECT * FROM fraudstream"
+    else:
+        select_query = "SELECT id, fraud, event_name FROM fraudstream"
     cur.execute(select_query)
     data = cur.fetchall()
+    if os.environ['USER'] == 'stevenrouk':
+        data = sorted(data, key=lambda x: x[1], reverse=True)
+    else:
+        data = sorted(data, key=lambda x: x[2], reverse=True)
 
     return data
 
@@ -34,4 +41,4 @@ def index():
     return render_template('index.html', data=data)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, threaded=True, debug=False) # Make sure to change debug=False for production
+    app.run(host='0.0.0.0', port=8080, threaded=True, debug=True) # Make sure to change debug=False for production
