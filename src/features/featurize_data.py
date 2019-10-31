@@ -9,5 +9,10 @@ def featurize_data(X):
     X['num_ticket_types'] = X['ticket_types'].map(lambda x: len(x))
     X['venue_address_exists'] = np.where(X['venue_address'] != '', 1, 0)
     X['venue_name_exists'] = np.where(X['venue_name'] != '', 1, 0)
+    
+    # featurize description contents:
+    top_desc_fraud_words = ['vip', 'pour', 'party', 'code', 'club']
+    for word in top_desc_fraud_words:
+        X[word] = X['description'].str.contains(word).values.astype(int)
 
     return X
