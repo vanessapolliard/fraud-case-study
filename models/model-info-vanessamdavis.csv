@@ -1,5 +1,5 @@
 unique_id,pickle_filename,pipeline_string,named_steps,classification_threshold,cv_accuracy,cv_precision,cv_recall,cv_roc_auc,cv_f1
-2989737759052901380,/Users/stevenrouk/Documents/galvanize/weekly-case-studies/fraud-detection-case-study/models/2989737759052901380.pkl,"Pipeline(memory=None,
+3731309827070681818,/Users/vanessamdavis/Documents/Repos/fraud-detection-case-study/models/3731309827070681818.pkl,"Pipeline(memory=None,
          steps=[('ct',
                  ColumnTransformer(n_jobs=None, remainder='drop',
                                    sparse_threshold=0.3,
@@ -67,4 +67,4 @@ unique_id,pickle_filename,pipeline_string,named_steps,classification_threshold,c
                        min_samples_leaf=1, min_samples_split=2,
                        min_weight_fraction_leaf=0.0, n_estimators=100,
                        n_jobs=None, oob_score=False, random_state=None,
-                       verbose=0, warm_start=False)}",0.5,0.983630804493313,0.9534648881560548,0.8649484536082473,0.9913097125104985,0.9032987352964789
+                       verbose=0, warm_start=False)}",0.5,0.9824215886607636,0.9364953489656888,0.8624272207681212,0.9887236786901502,0.8972505831158906
