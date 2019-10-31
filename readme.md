@@ -52,6 +52,8 @@ In order to easily experiment with various preprocessing steps and model configu
 ### Imbalanced Class
 Our initial exploratory analysis showed that our data set consisted of ~90% legitimate events and ~10% fraudulent events. Since all of our models are sensitive to imbalanced classes while training, we utilized the `imbalanced-learn RandomOverSampler` tool to oversample our fraudulent events, resulting in a balanced class.
 
+Originally we used 0.7 as the balancing ratio, but found that a 1:1 ratio gave us the best results. **Doing this boosted our metrics (recall and f1) by several percentage points.**
+
 
 ## Modeling
 ### Model Accuracy Metrics
