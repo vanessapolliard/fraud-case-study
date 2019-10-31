@@ -12,8 +12,6 @@ We placed a heavy emphasis on mapping out this project and planning out our next
 <img src="images/board_img_1.jpg" width="600">
 </p>  
 
-![](images/board_img_2.jpg)
-
 Instead of splitting up this project and working on sections individually, we mostly employed a 3-way group programming approach. We alternated projecting one of our screens on a TV and worked together to solve issues. We found that we all learned new things while working this way, and we were able to quickly resolve issues using our collective knowledge. When appropriate, we also split up and worked individually on sections of the project, while checking in frequently.
 
 ## Data Preprocessing
@@ -30,15 +28,19 @@ We made used of several helper functions that we created while initially explori
   * Numeric features, which we normalized (e.g. "body_length").
   * Easily extracted numerical features (e.g. number of "previous_payouts").
 
+We systematically went through all of the predictors in the data in order to decide how to appreach each one.
+![](images/board_img_2.jpg)
+
+
 **Example helper function output:**
 ```python
-mean_comparison('user_age')
+numeric_comparison('num_payouts')
+    num_payouts not_fraud proportion: 37.04
+    num_payouts fraud proportion: 0.58
 
-user_age fraud mean:
-87.15
-
-user_age not fraud mean:
-402.68
+exist_proportions('venue_address')
+    Not_fraud proportion: 0.797
+    Fraud proportion: 0.052
 ```
 
 
