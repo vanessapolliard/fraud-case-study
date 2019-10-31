@@ -93,6 +93,14 @@ This chart illustrates the diagnostic ability of our binary classifier system as
 | cv_roc_auc | 0.986365 |
 | cv_f1 | 0.890859 |
 
+### Tuning Thresholds
+| Classification Threshold | Recall |
+| --- | --- |
+| 0.5 | 0.879 |
+| 0.4 | 0.898 |
+| 0.2 | 0.947 |
+| 0.1 | 0.978 |
+
 ### Top Model Feature Importances
 | Importance | Feature |
 | --- | --- |
