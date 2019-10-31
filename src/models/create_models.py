@@ -42,13 +42,19 @@ feature_names = X.columns
 
 #####################################
 # FEATURIZATION BLOCK
-
-
+X['event_duration'] = X['event_end'] - X['event_start']
+X['time_to_create'] = X['event_published'] - X['event_created']
+X['org_desc_exists'] = np.where(X['org_desc'] != '', 1, 0)
+X['org_name_exists'] = np.where(X['org_name'] != '', 1, 0)
+X['num_previous_payouts'] = X['previous_payouts'].map(lambda x: len(x))
+X['num_ticket_types'] = X['ticket_types'].map(lambda x: len(x))
+X['venue_address_exists'] = np.where(X['venue_address'] != '', 1, 0)
+X['venue_name_exists'] = np.where(X['venue_name'] != '', 1, 0)
 #####################################
 
 # Create preprocessing transformer
-scaled_features = ['body_length', 'channels', 'name_length', 'org_facebook', 'org_twitter', 'user_age']
-passthrough_features = ['fb_published', 'has_analytics', 'has_header', 'has_logo', 'show_map']
+scaled_features = ['body_length', 'channels', 'name_length', 'org_facebook', 'org_twitter', 'user_age','event_duration','time_to_create','num_previous_payouts','num_ticket_types']
+passthrough_features = ['fb_published', 'has_analytics', 'has_header', 'has_logo', 'show_map','org_desc_exists','org_name_exists','venue_address_exists','venue_name_exists']
 onehot_features = ['delivery_method', 'user_type']
 
 numeric_transformer = Pipeline(steps=[
