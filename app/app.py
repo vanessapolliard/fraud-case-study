@@ -41,4 +41,8 @@ def index():
     return render_template('index.html', data=data)
 
 if __name__ == '__main__':
+    if os.environ['USER'] == 'stevenrouk':
+        debug = True
+    else:
+        debug = False
     app.run(host='0.0.0.0', port=8080, threaded=True, debug=True) # Make sure to change debug=False for production
