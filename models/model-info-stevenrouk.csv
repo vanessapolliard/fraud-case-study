@@ -1,0 +1,11 @@
+unique_id,pickle_filename,pipeline_string,named_steps,classification_threshold,cv_accuracy,cv_precision,cv_recall,cv_roc_auc,cv_f1,cv_aoc
+3690891417560741173,/Users/stevenrouk/Documents/galvanize/weekly-case-studies/fraud-detection-case-study/models/3690891417560741173.pkl,"Pipeline(memory=None,
+     steps=[('ct', ColumnTransformer(n_jobs=None, remainder='drop', sparse_threshold=0.3,
+         transformer_weights=None,
+         transformers=[('features', StandardScaler(copy=True, with_mean=True, with_std=True), ['body_length', 'channels'])])), ('log_regressor', LogisticRegression(C=1.0, class_wei...enalty='l2', random_state=None, solver='lbfgs',
+          tol=0.0001, verbose=0, warm_start=False))])","{'ct': ColumnTransformer(n_jobs=None, remainder='drop', sparse_threshold=0.3,
+         transformer_weights=None,
+         transformers=[('features', StandardScaler(copy=True, with_mean=True, with_std=True), ['body_length', 'channels'])]), 'log_regressor': LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='warn',
+          n_jobs=None, penalty='l2', random_state=None, solver='lbfgs',
+          tol=0.0001, verbose=0, warm_start=False)}",0.5,0.9097842215086548,0.0,0.0,,0.0,0.7385260841150318

@@ -25,7 +25,8 @@ DATA_DIRECTORY_PROCESSED = os.path.join(DATA_DIRECTORY, 'processed')  # The data
 
 def save_model_info(model, unique_id, X, y):
     # Save model information to our model info dataframe
-    model_info_filepath = os.path.join(MODELS_DIRECTORY, 'model-info.csv')
+    user = os.environ['USER']
+    model_info_filepath = os.path.join(MODELS_DIRECTORY, f'model-info-{user}.csv')
     if os.path.exists(model_info_filepath):
         model_info = pd.read_csv(model_info_filepath)
     else:
