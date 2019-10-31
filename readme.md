@@ -1,34 +1,60 @@
-For the next two days we will deal with the entire end to end pipeline of data science through a case study.  We have touched on aspects of this throughout the course but have not yet put all the pieces together.
+# Real-Time E-Commerce Fraud Screening
 
-We will also touch on some new topics including:
-* cloud services including AWS
-* web applications (and the technology of the web)
-* deploying a DS application
-* a touch of data visualization/presentation
+## Goals
+Our goal is to create a sustainable, cloud-based software project to flag potential fraudulent events posted to the company software platform in real-time.
 
-#### Themes (you will be assessed on this)
+We were given access to a data set consisting of ~14,000 events which were already classified as being legitimate or fraudulent. There were ~13,000 legitimate and ~1,300 fraudulent events.
 
-* Software best practices (proper encapsulation and functions)
-* product focus
-* deploy models
-* project scoping -- independence
+## Process Flow
+We placed a heavy emphasis on mapping out this project and planning out our next steps every few hours. Whiteboards are our friends.
 
-#### Rough timeline 
+![](images/board_img_1.jpg)
+![](images/board_img_2.jpg)
 
-* Wednesday: Project scoping, Model building, and an intro to Web apps
-* Thursday: Web app and deployment
+Instead of splitting up this project and working on sections individually, we mostly employed a 3-way group programming approach. We alternated projecting one of our screens on a TV and worked together to solve issues. We found that we all learned new things while working this way, and we were able to quickly resolve issues using our collective knowledge. When appropriate, we also split up and worked individually on sections of the project, while checking in frequently.
 
-#### Deliverables
+## Data Preprocessing
+### Restricting Available Data
+Our initial data set contained a number of pieces of information that would not generally be know at the time of creation of an event, so we removed them. These included:
+  * Info pertaining to payouts for the event in question.
+  * Ticket sales info.
+  * Payee info.
+  * Time-based info that would not be available when the event was created.
 
-* model (properly commented and encapsulated on Github with a README)
-* exposed API
-* Data visualization (extra)
+### Exploratory Data Analysis
+We made used of several helper functions that we created while initially exploring the data. Our initial focus was on finding easy predictors for our model, which included:
+  * Features that were binary encoded (e.g. "has_logo").
+  * Numeric features, which we normalized (e.g. "body_length").
+  * Easily extracted numerical features (e.g. number of "previous_payouts").
 
-#### Assessment
+## Modeling
+### Model Accuracy Metrics
+Our model accuracy metrics were chosen with the intended purpose of this tool in mind, which is to flag events that are **potentially** positive for fraud, so they can then be reviewed by an actual human being.
 
-* You will be assessed both on quality and cleanliness of code
-* as well as a well functioning solution
+  * As such, our goal was to minimize both false positive and false negative results, so an F1 score was our target.
+  * We also considered recall as a target score, because review by a human will limit the impact of events falsely flagged as fraudulent.
 
-#### Notes
+### Validation And Testing Methodology
+In order to be as thorough as possible, we performed a stratified split of our data at the very beginning, in order to have a holdout data set for final model accuracy testing.
 
-* [building your model](model_notes.md): notes on how to get started with the dataset and how to save your model once you've trained it.
+While selecting and tuning our models, we employed a GridSearchCV strategy, which varies specified model parameters while performing cross-validation using our testing data.
+
+### Results
+
+![](images/roc_curve_final_model.png)
+
+| Metric | Score |
+| --- | --- |
+| classification_threshold | 0.5 |
+| cv_accuracy | 0.981589 |
+| cv_precision | 0.953983 |
+| cv_recall | 0.835865 |
+| cv_roc_auc | 0.986365 |
+| cv_f1 | 0.890859 |
+
+## App Link: http://bit.ly/fraud_predictor
+
+## Future Steps
+While we are satisfied with the progress we've made so far, given additional funding for this project, our future goals would include the following:
+  * Additional feature engineering, including Natural Language Processing of free-form predictor information.
+  * Additional model types and tuning.
