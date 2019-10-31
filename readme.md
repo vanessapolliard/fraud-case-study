@@ -11,7 +11,6 @@ We placed a heavy emphasis on mapping out this project and planning out our next
 ![](images/board_img_1.jpg)
 ![](images/board_img_2.jpg)
 
-
 Instead of splitting up this project and working on sections individually, we mostly employed a 3-way group programming approach. We alternated projecting one of our screens on a TV and worked together to solve issues. We found that we all learned new things while working this way, and we were able to quickly resolve issues using our collective knowledge. When appropriate, we also split up and worked individually on sections of the project, while checking in frequently.
 
 ## Data Preprocessing
@@ -23,10 +22,22 @@ Our initial data set contained a number of pieces of information that would not 
   * Time-based info that would not be available when the event was created.
 
 ### Exploratory Data Analysis
-We made used of several helper functions that we created while initially exploring the data. Our initial focus was on finding easy predictors for our model, which included:
+We made used of several helper functions that we created while initially exploring the data. These functions allowed us to quickly compare values for a given predictor for legitimate and fraudulent events. Our initial focus was on finding easy predictors for our model, which included:
   * Features that were binary encoded (e.g. "has_logo").
   * Numeric features, which we normalized (e.g. "body_length").
   * Easily extracted numerical features (e.g. number of "previous_payouts").
+
+**Example helper function output:**
+```python
+mean_comparison('user_age')
+
+user_age fraud mean:
+87.15
+
+user_age not fraud mean:
+402.68
+```
+
 
 ### Feature Engineering
 In order to easily experiment with various preprocessing steps and model configurations, we utilized the `sklearn.pipeline.Pipeline` class. Doing this, we were able to chain together cleaning / processing steps and different models:
@@ -82,6 +93,10 @@ This chart illustrates the diagnostic ability of our binary classifier system as
 | 0.04 | org_facebook |
 | 0.04 | delivery_method_1.0 |
 | 0.03 | event_duration |
+
+
+## Cloud-Based Web App
+Our trained, pickled model was deployed to an AWS instance. 
 
 ## App Link: http://bit.ly/fraud_predictor
 
