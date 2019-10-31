@@ -8,3 +8,4 @@ data.json
 .vscode
 data-1000.json
 data/
+models/*.pkl
