@@ -64,8 +64,12 @@ def make_train_test_split():
         return
     print('loading data')
     df = load_data_as_dataframe()
+    print('creating target column for stratified train/test split')
+    df['fraud'] = df['acct_type'].str.contains('fraud').values.astype(int)
+    df.drop(columns='acct_type', inplace=True)
     print('creating train test split')
-    train, test = train_test_split(df, random_state=42)
+    labels_array = df['fraud'].to_numpy()
+    train, test = train_test_split(df, random_state=42, stratify=labels_array)
     print(f'writing train file to {train_outfile}')
     train.to_json(train_outfile)
     print(f'writing test file to {test_outfile}')

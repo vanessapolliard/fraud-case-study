@@ -35,8 +35,8 @@ DATA_DIRECTORY_PROCESSED = os.path.join(DATA_DIRECTORY, 'processed')  # The data
 df_train = load_data_as_dataframe(name='train')
 
 # Pull out X and y
-target_name = 'acct_type'
-y = df_train[target_name].str.contains('fraud').values.astype(int)
+target_name = 'fraud'
+y = df_train[target_name]
 X = df_train.drop(target_name, axis=1)
 feature_names = X.columns
 
