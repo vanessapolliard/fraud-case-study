@@ -3,6 +3,7 @@ import sys
 sys.path.append('.')
 
 import click
+import numpy as np
 import pandas as pd
 import pickle
 
@@ -14,11 +15,13 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
 
 from src.data.make_dataset import load_data_as_dataframe
+from src.models.save_model_info import save_model_info
 
 
 FILE_DIRECTORY = os.path.split(os.path.realpath(__file__))[0]  # Directory this script is in
 SRC_DIRECTORY = os.path.split(FILE_DIRECTORY)[0]  # The 'src' directory
 ROOT_DIRECTORY = os.path.split(SRC_DIRECTORY)[0]  # The root directory for the project
+MODELS_DIRECTORY = os.path.join(ROOT_DIRECTORY, 'models')  # Directory for pickled models and model info
 DATA_DIRECTORY = os.path.join(ROOT_DIRECTORY, 'data')  # The data directory
 DATA_DIRECTORY_RAW = os.path.join(DATA_DIRECTORY, 'raw')  # The data/raw directory
 DATA_DIRECTORY_PROCESSED = os.path.join(DATA_DIRECTORY, 'processed')  # The data/processed directory
@@ -46,5 +49,9 @@ ct_log_regressor.set_params().fit(X, y)
 print(f"basic score: {ct_log_regressor.score(X, y)}")
 print(f"CV score: {cross_val_score(ct_log_regressor, X, y, cv=5)}")
 
+unique_model_id = abs(hash(str(ct_log_regressor)))
+save_model_info(model=ct_log_regressor, unique_id=unique_model_id, X=X, y=y)
+
+# Save pickled model
 with open("models/basemodel.pkl","wb") as f:
-    pickle.dump(ct_log_regressor,f)
+    pickle.dump(ct_log_regressor, f)
