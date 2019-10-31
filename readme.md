@@ -8,7 +8,10 @@ We were given access to a data set consisting of ~14,000 events which were alrea
 ## Process Flow
 We placed a heavy emphasis on mapping out this project and planning out our next steps every few hours. Whiteboards are our friends.
 
-![](images/board_img_1.jpg)
+<p align="center">
+<img src="images/board_img_1.jpg" width="600">
+</p>  
+
 ![](images/board_img_2.jpg)
 
 Instead of splitting up this project and working on sections individually, we mostly employed a 3-way group programming approach. We alternated projecting one of our screens on a TV and worked together to solve issues. We found that we all learned new things while working this way, and we were able to quickly resolve issues using our collective knowledge. When appropriate, we also split up and worked individually on sections of the project, while checking in frequently.
@@ -89,10 +92,6 @@ This chart illustrates the diagnostic ability of our binary classifier system as
 | 0.06 | time_to_create |
 | 0.06 | user_type_1.0 |
 | 0.05 | org_twitter |
-| 0.04 | name_length |
-| 0.04 | org_facebook |
-| 0.04 | delivery_method_1.0 |
-| 0.03 | event_duration |
 
 
 ## Cloud-Based Web App
