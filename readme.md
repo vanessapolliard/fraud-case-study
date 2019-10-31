@@ -11,6 +11,7 @@ We placed a heavy emphasis on mapping out this project and planning out our next
 ![](images/board_img_1.jpg)
 ![](images/board_img_2.jpg)
 
+
 Instead of splitting up this project and working on sections individually, we mostly employed a 3-way group programming approach. We alternated projecting one of our screens on a TV and worked together to solve issues. We found that we all learned new things while working this way, and we were able to quickly resolve issues using our collective knowledge. When appropriate, we also split up and worked individually on sections of the project, while checking in frequently.
 
 ## Data Preprocessing
@@ -27,6 +28,14 @@ We made used of several helper functions that we created while initially explori
   * Numeric features, which we normalized (e.g. "body_length").
   * Easily extracted numerical features (e.g. number of "previous_payouts").
 
+### Feature Engineering
+In order to easily experiment with various preprocessing steps and model configurations, we utilized the `sklearn.pipeline.Pipeline` class. Doing this, we were able to chain together cleaning / processing steps and different models:
+
+1. Process numeric columns, including normalization.
+2. Process categorical columns, including one-hot encoding.
+3. Fit a model.
+
+
 ## Modeling
 ### Model Accuracy Metrics
 Our model accuracy metrics were chosen with the intended purpose of this tool in mind, which is to flag events that are **potentially** positive for fraud, so they can then be reviewed by an actual human being.
@@ -40,8 +49,10 @@ In order to be as thorough as possible, we performed a stratified split of our d
 While selecting and tuning our models, we employed a GridSearchCV strategy, which varies specified model parameters while performing cross-validation using our testing data.
 
 ### Results
+<p align="center">
+<img src="images/roc_curve_final_model.png" width="400">
+</p>  
 
-![](images/roc_curve_final_model.png)
 
 | Metric | Score |
 | --- | --- |
