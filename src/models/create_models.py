@@ -74,7 +74,7 @@ ct = ColumnTransformer(
     ])
 
 #model = LogisticRegression(solver='lbfgs')
-model = RandomForestClassifier(n_estimators=100)
+model = RandomForestClassifier(n_estimators=20,bootstrap=True)
 
 oversampler = RandomOverSampler(
                 sampling_strategy=1,
@@ -88,6 +88,14 @@ print(f"CV score: {cross_val_score(pipeline, X, y, cv=5)}")
 
 unique_model_id = abs(hash(str(pipeline)))
 save_model_info(model=pipeline, unique_id=unique_model_id, X=X, y=y)
+
+# feature importance
+feature_importances = np.round((model.feature_importances_),2)
+features = scaled_features + passthrough_features + list(pipeline.named_steps['ct'].\
+           transformers_[2][1].named_steps['onehot'].get_feature_names(onehot_features))
+important_features = pd.DataFrame(features,feature_importances).reset_index().sort_values(by='index',ascending=False)   
+
+
 
 # Save pickled model
 with open(f"models/{unique_model_id}.pkl","wb") as f:
