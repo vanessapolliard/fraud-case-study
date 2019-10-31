@@ -87,11 +87,11 @@ This chart illustrates the diagnostic ability of our binary classifier system as
 | Metric | Score |
 | --- | --- |
 | classification_threshold | 0.5 |
-| cv_accuracy | 0.981589 |
-| cv_precision | 0.953983 |
-| cv_recall | 0.835865 |
-| cv_roc_auc | 0.986365 |
-| cv_f1 | 0.890859 |
+| cv_accuracy | 0.982 |
+| cv_precision | 0.954 |
+| cv_recall | 0.836 |
+| cv_roc_auc | 0.986 |
+| cv_f1 | 0.891 |
 
 ### Tuning Thresholds
 | Classification Threshold | Recall |
