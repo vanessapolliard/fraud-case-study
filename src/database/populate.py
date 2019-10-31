@@ -1,10 +1,16 @@
 import os
+import sys
+sys.path.append('.')
+
 import pickle
 import time
 
+import numpy as np
 import pandas as pd
 import psycopg2
 import requests
+
+from src.features.featurize_data import featurize_data
 
 FILE_DIRECTORY = os.path.split(os.path.realpath(__file__))[0]  # Directory this script is in
 SRC_DIRECTORY = os.path.split(FILE_DIRECTORY)[0]  # The 'src' directory
@@ -17,7 +23,7 @@ DATA_DIRECTORY_PROCESSED = os.path.join(DATA_DIRECTORY, 'processed')  # The data
 api_url = 'http://galvanize-case-study-on-fraud.herokuapp.com/data_point'
 
 # Load Model
-model_filepath = os.path.join(MODELS_DIRECTORY, 'basemodel.pkl')
+model_filepath = os.path.join(MODELS_DIRECTORY, '8920304173528512454.pkl')
 with open(model_filepath, 'rb') as f:
     model = pickle.load(f)
 
@@ -65,7 +71,18 @@ if __name__ == "__main__":
             print(f'{event_id} already exists in database')
         else:
             df_sample = pd.DataFrame([r])
-            predicted_proba = model.predict_proba(df_sample)[0][-1]
+            df_sample = featurize_data(df_sample)
+            try:
+                predicted_proba = model.predict_proba(df_sample)[0][-1]
+            except Exception as e:
+                print(e)
+                try:
+                    df_sample = df_sample.fillna(np.nan)
+                    predicted_proba = model.predict_proba(df_sample)[0][-1]
+                except Exception as e:
+                    print(e)
+                    print('failed twice, passing this data point')
+                    continue
             print(f'inserting event {event_id} into db with predicted fraud probability {predicted_proba:.3f}')
             insert_into_db(event_id, predicted_proba)
 

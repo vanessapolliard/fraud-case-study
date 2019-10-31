@@ -20,6 +20,7 @@ from imblearn.pipeline import Pipeline as IMPipeline
 
 from src.data.make_dataset import load_data_as_dataframe
 from src.models.save_model_info import save_model_info
+from src.features.featurize_data import featurize_data
 
 
 FILE_DIRECTORY = os.path.split(os.path.realpath(__file__))[0]  # Directory this script is in
@@ -42,14 +43,7 @@ feature_names = X.columns
 
 #####################################
 # FEATURIZATION BLOCK
-X['event_duration'] = X['event_end'] - X['event_start']
-X['time_to_create'] = X['event_published'] - X['event_created']
-X['org_desc_exists'] = np.where(X['org_desc'] != '', 1, 0)
-X['org_name_exists'] = np.where(X['org_name'] != '', 1, 0)
-X['num_previous_payouts'] = X['previous_payouts'].map(lambda x: len(x))
-X['num_ticket_types'] = X['ticket_types'].map(lambda x: len(x))
-X['venue_address_exists'] = np.where(X['venue_address'] != '', 1, 0)
-X['venue_name_exists'] = np.where(X['venue_name'] != '', 1, 0)
+X = featurize_data(X)
 #####################################
 
 # Create preprocessing transformer
