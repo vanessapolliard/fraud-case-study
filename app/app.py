@@ -45,4 +45,4 @@ if __name__ == '__main__':
         debug = True
     else:
         debug = False
-    app.run(host='0.0.0.0', port=8080, threaded=True, debug=True) # Make sure to change debug=False for production
+    app.run(host='0.0.0.0', port=8080, threaded=True, debug=debug) # Make sure to change debug=False for production
