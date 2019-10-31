@@ -13,7 +13,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_score, GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.pipeline import Pipeline as IMPipeline
@@ -50,6 +50,7 @@ X['num_previous_payouts'] = X['previous_payouts'].map(lambda x: len(x))
 X['num_ticket_types'] = X['ticket_types'].map(lambda x: len(x))
 X['venue_address_exists'] = np.where(X['venue_address'] != '', 1, 0)
 X['venue_name_exists'] = np.where(X['venue_name'] != '', 1, 0)
+X['email_in_top_five_domains'] = X['email_domain'].map(lambda x: x in ('gmail.com', 'yahoo.com', 'hotmail.com', 'aol.com', 'live.com'))
 #####################################
 
 # Create preprocessing transformer
@@ -74,17 +75,31 @@ ct = ColumnTransformer(
     ])
 
 #model = LogisticRegression(solver='lbfgs')
-model = RandomForestClassifier(n_estimators=100)
+model = RandomForestClassifier(n_estimators=100, random_state=42)
 
 oversampler = RandomOverSampler(
                 sampling_strategy=1,
                 random_state=42)
 
 pipeline = IMPipeline([('ct', ct), ('oversampler', oversampler), ('model', model)])
-pipeline.set_params().fit(X, y)
+search = None
 
-print(f"basic score: {pipeline.score(X, y)}")
-print(f"CV score: {cross_val_score(pipeline, X, y, cv=5)}")
+#####################################
+# GRID SEARCH BLOCK
+# param_grid = {
+#     'oversampler__sampling_strategy': [0.93, 0.95, 0.97, 1]
+# }
+# search = GridSearchCV(pipeline, param_grid, iid=False, cv=5)
+# search.fit(X, y)
+# print("Best parameter (CV score=%0.3f):" % search.best_score_)
+# print(search.best_params_)
+#####################################
+
+# Fit our model using the best parameters
+if search:
+    pipeline.set_params(**search.best_params_).fit(X, y)
+else:
+    pipeline.set_params().fit(X, y)
 
 unique_model_id = abs(hash(str(pipeline)))
 save_model_info(model=pipeline, unique_id=unique_model_id, X=X, y=y)
