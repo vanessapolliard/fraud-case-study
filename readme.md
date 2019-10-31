@@ -46,6 +46,16 @@ Our model accuracy metrics were chosen with the intended purpose of this tool in
   * As such, our goal was to minimize both false positive and false negative results, so an F1 score was our target.
   * We also considered recall as a target score, because review by a human will limit the impact of events falsely flagged as fraudulent.
 
+### Model Iteration Process
+To aid in our model creation and selection process, we stored the parameters and metrics for each model we ran in a pandas DataFrame.
+
+| id | filename | pipeline_string | named_steps | threshold | accuracy | precision | recall | auc | f1 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 601551091133794381 | /Users/ste | Pipeline(... | {'ct': ... | 0.5 | 0.98 | 0.95 | 0.87 | 0.99 | 0.91 |
+| 7331089530306465686 | /Users/ste | Pipeline(... | {'ct': ... | 0.5 | 0.98 | 0.93 | 0.85 | 0.99 | 0.89 |
+| 2989737759052901380 | /Users/ste | Pipeline(... | {'ct': ... | 0.5 | 0.98 | 0.95 | 0.86 | 0.99 | 0.9 |
+| TEST | /Users/ste | Pipeline(... | {'ct': ... | 0.5 | 0.98 | 0.95 | 0.84 | 0.99 | 0.89 |
+
 ### Validation And Testing Methodology
 In order to be as thorough as possible, we performed a stratified split of our data at the very beginning, in order to have a holdout data set for final model accuracy testing.
 
