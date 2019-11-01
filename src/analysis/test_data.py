@@ -23,19 +23,6 @@ DATA_DIRECTORY_PROCESSED = os.path.join(DATA_DIRECTORY, 'processed')  # The data
 MODELS_DIRECTORY = os.path.join(ROOT_DIRECTORY, 'models')  # Directory for pickled models and model info
 model_filepath = os.path.join(MODELS_DIRECTORY, '8920304173528512454.pkl')
 
-def plot_roc_auc(X,y,model):
-    fpr, tpr, thresholds = roc_curve(y, model.set_params().predict_proba(X)[:,1])    
-    roc_auc = auc(fpr, tpr)
-    plt.title('Receiver Operating Characteristic')
-    plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
-    plt.legend(loc = 'lower right')
-    plt.plot([0, 1], [0, 1],'r--')
-    plt.xlim([0, 1])
-    plt.ylim([0, 1])
-    plt.ylabel('True Positive Rate')
-    plt.xlabel('False Positive Rate')
-    plt.show()
-
 
 if __name__ == '__main__':
     df_test = load_data_as_dataframe(name='test')
@@ -50,4 +37,6 @@ if __name__ == '__main__':
         model = pickle.load(f)
 
 
-    plot_roc_auc(X,y,model)
+    #unique_model_id = abs(hash(str(model)))
+    # unique_model_id = 'TEST'
+    # save_model_info(model=model, unique_id=unique_model_id, X=X, y=y)
